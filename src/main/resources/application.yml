@@ -5,9 +5,9 @@ spring:
 # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://sql.itnet.nazwa.pl:5432/itnet_przemo
-    username: itnet_przemo
-    password: Egt1234@
+    url: jdbc:postgresql://sql.pl:9999/
+    username: user
+    password: pass
 # JPA properties
   jpa:
     hibernate:
