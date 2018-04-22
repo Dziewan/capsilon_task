@@ -5,19 +5,19 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Collection;
 
-public interface ApiService {
+public interface UserService {
 
-    ResponseEntity<User> addState(User state);
+    ResponseEntity<User> addUser(User user);
 
-    ResponseEntity<User> getPlayerById(long id);
+    ResponseEntity<User> getUserById(long id);
 
-    ResponseEntity<User> updatePlayerState(long id, User user);
+    ResponseEntity<User> updateUser(long id, User user);
 
-    ResponseEntity<Collection<User>> getAll();
+    ResponseEntity<Collection<User>> getAllUsers();
 
     String welcome();
 
-    void deletePlayerStateById(long id);
+    void deleteUserById(long id);
 
     void deleteAll();
 }

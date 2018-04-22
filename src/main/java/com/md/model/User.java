@@ -6,21 +6,29 @@ import javax.persistence.*;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "table")
-public class Player {
+@Table(name = "user")
+public class User {
 
-    public Player() {}
+    public User() {}
 
-    private Player(final Builder builder) {
-        this.state = builder.state;
+    private User(final Builder builder) {
+        this.login = builder.login;
+        this.password = builder.password;
+        this.pesel = builder.pesel;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "player_state")
-    private String state;
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "pesel")
+    private String pesel;
 
     public Long getId() {
         return id;
@@ -30,25 +38,54 @@ public class Player {
         this.id = id;
     }
 
-    public String getState() {
-        return state;
+    public String getLogin() {
+        return login;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setLogin(String login) {
+        this.login = login;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPesel() {
+        return pesel;
+    }
+
+    public void setPesel(String pesel) {
+        this.pesel = pesel;
+    }
+
 
     public static class Builder {
 
-        private String state;
+        private String login;
+        private String password;
+        private String pesel;
 
-        public Builder state(final String state) {
-            this.state = state;
+        public Builder login(final String login) {
+            this.login = login;
             return this;
         }
 
-        public Player build() {
-            return new Player(this);
+        public Builder password(final String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder pesel(final String pesel) {
+            this.pesel = pesel;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
         }
 
     }
