@@ -1,8 +1,9 @@
 package com.md.web;
 
-import com.md.model.Player;
-import com.md.service.IStateController;
-import com.md.service.IStateRepository;
+import com.md.model.User;
+import com.md.service.ApiService;
+import com.md.service.CustomerRepository;
+import com.md.service.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/md")
-public class PlayerStateController implements IStateController {
+public class ApiController implements ApiService {
 
     @Autowired
-    private IStateRepository repository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Override
     @RequestMapping(value = "welcome", method = RequestMethod.GET)
@@ -25,30 +28,30 @@ public class PlayerStateController implements IStateController {
 
     @Override
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<Collection<Player>> getAll() {
+    public ResponseEntity<Collection<User>> getAll() {
 
-        Collection<Player> response = repository.findAll();
+        Collection<User> response = repository.findAll();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Player> getPlayerById(@PathVariable long id) {
+    public ResponseEntity<User> getPlayerById(@PathVariable long id) {
 
-        Player response = repository.findOne(id);
+        User response = repository.findOne(id);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Player> updatePlayerState(@PathVariable("id") long id, @RequestBody Player player) {
+    public ResponseEntity<User> updatePlayerState(@PathVariable("id") long id, @RequestBody User user) {
 
-        Player currentPlayer = repository.findOne(id);
-        currentPlayer.setState(player.getState());
+        User currentUser = repository.findOne(id);
+        currentUser.setState(user.getState());
 
-        Player response = repository.save(currentPlayer);
+        User response = repository.save(currentUser);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -67,13 +70,13 @@ public class PlayerStateController implements IStateController {
 
     @Override
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Player> addState(@RequestBody Player player) {
+    public ResponseEntity<User> addState(@RequestBody User user) {
 
-        Player currentPlayer = new Player.Builder()
-                .state(player.getState())
+        User currentUser = new User.Builder()
+                .state(user.getState())
                 .build();
 
-//        return new ResponseEntity<>(repository.save(currentPlayer), HttpStatus.CREATED);
-        return new ResponseEntity<>(currentPlayer, HttpStatus.CREATED);
+//        return new ResponseEntity<>(repository.save(currentUser), HttpStatus.CREATED);
+        return new ResponseEntity<>(currentUser, HttpStatus.CREATED);
     }
 }
