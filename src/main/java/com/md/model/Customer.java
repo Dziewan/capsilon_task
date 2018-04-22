@@ -1,8 +1,11 @@
 package com.md.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "klienci")
 public class Customer {
 

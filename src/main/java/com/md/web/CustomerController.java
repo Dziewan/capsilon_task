@@ -12,20 +12,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RestController
+@RestController("/customer")
 public class CustomerController implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @Override
-    @RequestMapping(value = "welcome", method = RequestMethod.GET)
+    @RequestMapping(value = "welcomeCustomer", method = RequestMethod.GET)
     public String welcome() {
         return "Service works properly";
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "addCustomer", method = RequestMethod.POST)
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
 
         Customer currentCustomer = new Customer.Builder()
@@ -38,7 +38,7 @@ public class CustomerController implements CustomerService {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "getCustomers", method = RequestMethod.GET)
     public ResponseEntity<Collection<Customer>> getAllCustomers() {
 
         Collection<Customer> response = customerRepository.findAll();
@@ -47,7 +47,7 @@ public class CustomerController implements CustomerService {
     }
 
     @Override
-    @RequestMapping(value = "customer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "getCustomer/{id}", method = RequestMethod.GET)
     public ResponseEntity<Customer> getCustomerById(@PathVariable long id) {
 
         Customer response = customerRepository.findOne(id);
@@ -56,7 +56,7 @@ public class CustomerController implements CustomerService {
     }
 
     @Override
-    @RequestMapping(value = "customer/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "updateCustomer/{id}", method = RequestMethod.POST)
     public ResponseEntity<Customer> updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) {
 
         Customer currentCustomer = customerRepository.findOne(id);
@@ -71,13 +71,13 @@ public class CustomerController implements CustomerService {
     }
 
     @Override
-    @RequestMapping(value = "customer/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteCustomer/{id}", method = RequestMethod.DELETE)
     public void deleteCustomerById(@PathVariable long id) {
         customerRepository.delete(id);
     }
 
     @Override
-    @RequestMapping(value = "customer/deleteAll", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteCustomers", method = RequestMethod.DELETE)
     public void deleteAll() {
         customerRepository.deleteAll();
     }

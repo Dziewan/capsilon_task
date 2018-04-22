@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@RestController
+@RestController("/user")
 public class UserController implements UserService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    @RequestMapping(value = "welcome", method = RequestMethod.GET)
+    @RequestMapping(value = "/welcomeUser", method = RequestMethod.GET)
     public String welcome() {
         return "Service works properly";
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "addUser", method = RequestMethod.POST)
     public ResponseEntity<User> addUser(@RequestBody User user) {
 
         User currentUser = new User.Builder()
@@ -37,7 +37,7 @@ public class UserController implements UserService {
     }
 
     @Override
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "getUsers", method = RequestMethod.GET)
     public ResponseEntity<Collection<User>> getAllUsers() {
 
         Collection<User> response = userRepository.findAll();
@@ -46,7 +46,7 @@ public class UserController implements UserService {
     }
 
     @Override
-    @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "getUser/{id}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserById(@PathVariable long id) {
 
         User response = userRepository.findOne(id);
@@ -55,7 +55,7 @@ public class UserController implements UserService {
     }
 
     @Override
-    @RequestMapping(value = "user/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "updateUser/{id}", method = RequestMethod.POST)
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user) {
 
         User currentUser = userRepository.findOne(id);
@@ -70,13 +70,13 @@ public class UserController implements UserService {
     }
 
     @Override
-    @RequestMapping(value = "user/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteUser/{id}", method = RequestMethod.DELETE)
     public void deleteUserById(@PathVariable long id) {
         userRepository.delete(id);
     }
 
     @Override
-    @RequestMapping(value = "user/deleteAll", method = RequestMethod.DELETE)
+    @RequestMapping(value = "deleteUsers", method = RequestMethod.DELETE)
     public void deleteAll() {
         userRepository.deleteAll();
     }
