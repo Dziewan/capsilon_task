@@ -31,6 +31,7 @@ public class UserController implements UserService {
                 .login(user.getLogin())
                 .password(user.getPassword())
                 .pesel(user.getPesel())
+                .email(user.getEmail())
                 .build();
 
         return new ResponseEntity<>(userRepository.save(currentUser), HttpStatus.CREATED);

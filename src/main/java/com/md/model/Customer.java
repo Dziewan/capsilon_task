@@ -3,11 +3,12 @@ package com.md.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "klienci")
-public class Customer {
+public class Customer implements Serializable {
 
     public Customer() {}
 

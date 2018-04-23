@@ -3,11 +3,12 @@ package com.md.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "user")
-public class User {
+@Table(name = "dealer_user")
+public class User implements Serializable {
 
     public User() {}
 
@@ -15,6 +16,7 @@ public class User {
         this.login = builder.login;
         this.password = builder.password;
         this.pesel = builder.pesel;
+        this.email = builder.email;
     }
 
     @Id
@@ -30,12 +32,11 @@ public class User {
     @Column(name = "pesel")
     private String pesel;
 
+    @Column(name = "email")
+    private Integer email;
+
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getLogin() {
@@ -62,12 +63,21 @@ public class User {
         this.pesel = pesel;
     }
 
+    public Integer getEmail() {
+        return email;
+    }
+
+    public void setEmail(Integer email) {
+        this.email = email;
+    }
+
 
     public static class Builder {
 
         private String login;
         private String password;
         private String pesel;
+        private Integer email;
 
         public Builder login(final String login) {
             this.login = login;
@@ -81,6 +91,11 @@ public class User {
 
         public Builder pesel(final String pesel) {
             this.pesel = pesel;
+            return this;
+        }
+
+        public Builder email(final Integer email) {
+            this.email = email;
             return this;
         }
 
