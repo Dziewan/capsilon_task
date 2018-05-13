@@ -16,9 +16,4 @@
     <bean id="schedulerService" class="com.md.service.impl.SchedulerImpl"/>
     <bean id="validationService" class="com.md.service.impl.ValidationImpl"/>
 
-    <!-- To run fixed delay scheduler -->
-    <!-- <bean id="fixedDelayScheduler" class="com.limeguru.tutorial.FixedDelayScheduler"></bean> -->
-
-    <!-- To run cron scheduler -->
-    <!-- <bean id="cronScheduler" class="com.limeguru.tutorial.CronScheduler"></bean> -->
 </beans>
