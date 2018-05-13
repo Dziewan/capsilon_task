@@ -1,7 +1,7 @@
 package com.md.service.impl;
 
-import com.md.model.DayDto;
-import com.md.model.ValuesDto;
+import com.md.model.dto.DayDto;
+import com.md.model.dto.ValuesDto;
 import com.md.service.ObligatoryService;
 import org.springframework.stereotype.Component;
 

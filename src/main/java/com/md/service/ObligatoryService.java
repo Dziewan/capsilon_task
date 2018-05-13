@@ -1,6 +1,6 @@
 package com.md.service;
 
-import com.md.model.DayDto;
+import com.md.model.dto.DayDto;
 
 import java.util.List;
 

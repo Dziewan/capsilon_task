@@ -1,4 +1,6 @@
-package com.md.model;
+package com.md.model.dto;
+
+import com.md.model.BaseModel;
 
 public class CityDto extends BaseModel {
 

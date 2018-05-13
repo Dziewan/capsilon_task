@@ -2,6 +2,8 @@ package com.md.web;
 
 import com.google.gson.Gson;
 import com.md.model.*;
+import com.md.model.dto.DataDto;
+import com.md.model.dto.DayDto;
 import com.md.service.*;
 import com.md.setup.Values;
 import com.squareup.okhttp.OkHttpClient;
@@ -10,18 +12,18 @@ import com.squareup.okhttp.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 @RestController
 public class CustomController implements CustomService {
 
