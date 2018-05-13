@@ -1,12 +1,12 @@
 package com.md.model;
 
-public class CityModel extends BaseModel {
+public class CityDto extends BaseModel {
 
-    public CityModel() {}
+    public CityDto() {}
 
     private int id;
     private String name;
-    private CoordModel coord;
+    private CoordDto coord;
     private String country;
 
     public int getId() {
@@ -25,11 +25,11 @@ public class CityModel extends BaseModel {
         this.name = name;
     }
 
-    public CoordModel getCoord() {
+    public CoordDto getCoord() {
         return coord;
     }
 
-    public void setCoord(CoordModel coord) {
+    public void setCoord(CoordDto coord) {
         this.coord = coord;
     }
 

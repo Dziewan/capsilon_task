@@ -1,6 +1,6 @@
 package com.md.model;
 
-public class WeatherModel extends BaseModel {
+public class WeatherDto extends BaseModel {
 
     private int id;
     private String main;

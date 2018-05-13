@@ -1,6 +1,6 @@
 package com.md.model;
 
-public class SysModel extends BaseModel {
+public class SysDto extends BaseModel {
 
     private String pod;
 

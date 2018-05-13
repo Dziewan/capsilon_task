@@ -1,12 +1,13 @@
 package com.md.web;
 
 import com.google.gson.Gson;
-import com.md.model.DataModel;
-import com.md.service.CustomService;
+import com.md.model.*;
+import com.md.service.*;
 import com.md.setup.Values;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Singleton;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CustomController implements CustomService {
+
+    @Autowired
+    ObligatoryService obligatoryService;
+
+    @Autowired
+    ValidationService validationService;
+
+    @Autowired
+    CacheService cacheService;
 
     private String URL = "http://samples.openweathermap.org/data/2.5/forecast?q={cityName},{countryCode}&appid=b6907d289e10d714a6e88b30761fae22";
 
@@ -31,16 +46,55 @@ public class CustomController implements CustomService {
 
     @Override
     @RequestMapping(value = "getData/{cityName}/{countryCode}", method = RequestMethod.GET)
-    public ResponseEntity<?> getData(@PathVariable String cityName, @PathVariable String countryCode) {
+    public synchronized ResponseEntity<?> getData(@PathVariable String cityName, @PathVariable String countryCode) {
+        Map<String, CacheModel> cache = cacheService.getCache();
+
+        RequestModel requestModel = new RequestModel.Builder()
+                .city(cityName)
+                .countryCode(countryCode)
+                .build();
+
+        String requestString = requestModel.toString();
+
+        if (cache.containsKey(requestString)) {
+            int timeValidation = validationService.validateTimestamp(cache.get(requestString).getTimestamp());
+            if (timeValidation == ValidationCode.OK) {
+                return new ResponseEntity<>(cache.get(requestString).getResponseModel(), HttpStatus.OK);
+            } else {
+                cache.remove(requestString);
+            }
+        }
+
+        int requestValidation = validationService.validateRequest(requestModel);
+        if (requestValidation == ValidationCode.FAIL) {
+            return new ResponseEntity<>(Values.BAD_REQUEST_ERROR, HttpStatus.BAD_REQUEST);
+        }
 
         String url = URL.replace("{cityName}", cityName).replace("{countryCode}", countryCode);
-        DataModel model = execute(url);
+        DataDto model = execute(url);
 
         if (model == null) {
             return new ResponseEntity<>(Values.BAD_REQUEST_ERROR, HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(model, HttpStatus.OK);
+        List<DayDto> data = model.getList();
+
+        double temperature = obligatoryService.averageTemperature(data);
+        double pressure = obligatoryService.averagePressure(data);
+        double humidity = obligatoryService.averageHumidity(data);
+
+        ResponseModel responseModel = new ResponseModel.Builder()
+                .cityName(cityName)
+                .countryCode(countryCode)
+                .averageTemperature(temperature)
+                .averagePressure(pressure)
+                .averageHumidity(humidity)
+                .build();
+
+        CacheModel cacheModel = new CacheModel(responseModel, new Date());
+        cache.put(requestString, cacheModel);
+
+        return new ResponseEntity<>(responseModel, HttpStatus.OK);
     }
 
     @Override
@@ -49,14 +103,15 @@ public class CustomController implements CustomService {
         return "Service works";
     }
 
-    private DataModel execute(String url) {
+    private DataDto execute(String url) {
 
         Request request = new Request.Builder()
-                .url(URL)
+                .url(url)
                 .build();
 
         Response response = null;
-        String responseBody = "";
+        String responseBody =  "";
+
         try {
             response = client.newCall(request).execute();
             responseBody = response.body().string();
@@ -65,6 +120,6 @@ public class CustomController implements CustomService {
             return null;
         }
 
-        return gson.fromJson(responseBody, DataModel.class);
+        return gson.fromJson(responseBody, DataDto.class);
     }
 }

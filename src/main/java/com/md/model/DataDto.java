@@ -2,13 +2,13 @@ package com.md.model;
 
 import java.util.List;
 
-public class DataModel extends BaseModel {
+public class DataDto extends BaseModel {
 
     private String cod;
     private double message;
     private int cnt;
-    private List<DayModel> list;
-    private CityModel city;
+    private List<DayDto> list;
+    private CityDto city;
 
     public String getCod() {
         return cod;
@@ -34,19 +34,19 @@ public class DataModel extends BaseModel {
         this.cnt = cnt;
     }
 
-    public List<DayModel> getList() {
+    public List<DayDto> getList() {
         return list;
     }
 
-    public void setList(List<DayModel> list) {
+    public void setList(List<DayDto> list) {
         this.list = list;
     }
 
-    public CityModel getCity() {
+    public CityDto getCity() {
         return city;
     }
 
-    public void setCity(CityModel city) {
+    public void setCity(CityDto city) {
         this.city = city;
     }
 }

@@ -1,6 +1,6 @@
 package com.md.model;
 
-public class WindModel extends BaseModel {
+public class WindDto extends BaseModel {
 
     private double speed;
     private double deg;

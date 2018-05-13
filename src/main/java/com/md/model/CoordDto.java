@@ -1,6 +1,6 @@
 package com.md.model;
 
-public class CoordModel extends BaseModel {
+public class CoordDto extends BaseModel {
 
     private double lat;
     private double lon;

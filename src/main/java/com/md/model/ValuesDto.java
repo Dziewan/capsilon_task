@@ -1,6 +1,6 @@
 package com.md.model;
 
-public class ValuesModel extends BaseModel {
+public class ValuesDto extends BaseModel {
 
     private double temp;
     private double temp_min;
