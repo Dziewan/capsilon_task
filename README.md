@@ -4,7 +4,9 @@ You can run application in two ways:
 
 1 ->
     - Connect to http://{IPv4 address}:8443/ or http://localhost:8443/
+
     - Fill the City name and Country code fields
+
     - Press submit to receive the JSON file
 
 2 ->
