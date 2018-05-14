@@ -16,4 +16,4 @@ You can run application in two ways:
 
         http://{IPv4 address}:8443/getData?cityName={cityName}&countryCode={countryCode}
 
-    - Press enter to receive the JSON file with data based on cityName and countryCode as you wrote in address above
+    - Press enter to receive the JSON file with data based on cityName and countryCode as you set between brackets in address above
