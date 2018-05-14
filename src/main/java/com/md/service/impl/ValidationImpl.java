@@ -17,7 +17,11 @@ public class ValidationImpl implements ValidationService {
     @Override
     public int validateRequest(RequestModel model) {
 
-        if (!check(model.getCity()) || !check(model.getCountryCode())) {
+        if (!checkCharacters(model.getCity()) || !checkCharacters(model.getCountryCode())) {
+            return ValidationCode.FAIL;
+        }
+
+        if (model.getCity().isEmpty() || model.getCountryCode().isEmpty()) {
             return ValidationCode.FAIL;
         }
 
@@ -36,7 +40,7 @@ public class ValidationImpl implements ValidationService {
         return ValidationCode.FAIL;
     }
 
-    private boolean check(String val) {
+    private boolean checkCharacters(String val) {
         for (char sign : wrongSigns) {
             if (val.contains(sign+"")) {
                 return false;

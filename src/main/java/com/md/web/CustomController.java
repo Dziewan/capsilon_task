@@ -9,14 +9,16 @@ import com.md.setup.Values;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.Date;
@@ -47,8 +49,9 @@ public class CustomController implements CustomService {
     }
 
     @Override
-    @RequestMapping(value = "getData/{cityName}/{countryCode}", method = RequestMethod.GET)
-    public synchronized ResponseEntity<?> getData(@PathVariable String cityName, @PathVariable String countryCode) {
+    @RequestMapping(value = "/getData", method = RequestMethod.GET)
+    public synchronized ResponseEntity<?> getData(@RequestParam String cityName,
+                                                  @RequestParam String countryCode) {
         Map<String, CacheModel> cache = cacheService.getCache();
 
         RequestModel requestModel = new RequestModel.Builder()
@@ -59,9 +62,10 @@ public class CustomController implements CustomService {
         String requestString = requestModel.toString();
 
         if (cache.containsKey(requestString)) {
-            int timeValidation = validationService.validateTimestamp(cache.get(requestString).getTimestamp());
+            CacheModel savedModel = cache.get(requestString);
+            int timeValidation = validationService.validateTimestamp(savedModel.getTimestamp());
             if (timeValidation == ValidationCode.OK) {
-                return new ResponseEntity<>(cache.get(requestString).getResponseModel(), HttpStatus.OK);
+                return new ResponseEntity<>(savedModel.getResponseModel(), HttpStatus.OK);
             } else {
                 cache.remove(requestString);
             }
@@ -72,7 +76,10 @@ public class CustomController implements CustomService {
             return new ResponseEntity<>(Values.BAD_REQUEST_ERROR, HttpStatus.BAD_REQUEST);
         }
 
-        String url = URL.replace("{cityName}", cityName).replace("{countryCode}", countryCode);
+        String url = URL
+                .replace("{cityName}", cityName)
+                .replace("{countryCode}", countryCode);
+
         DataDto model = execute(url);
 
         if (model == null) {
@@ -111,8 +118,8 @@ public class CustomController implements CustomService {
                 .url(url)
                 .build();
 
-        Response response = null;
-        String responseBody =  "";
+        Response response;
+        String responseBody;
 
         try {
             response = client.newCall(request).execute();

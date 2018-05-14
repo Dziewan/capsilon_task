@@ -4,8 +4,6 @@ import com.md.model.BaseModel;
 
 public class CityDto extends BaseModel {
 
-    public CityDto() {}
-
     private int id;
     private String name;
     private CoordDto coord;

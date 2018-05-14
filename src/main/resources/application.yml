@@ -2,8 +2,3 @@
 server:
   port: 8443
   sessionTimeout: 30
-# Security configuration
-security:
-  user:
-    name: user
-    password: user
