@@ -1,7 +1,7 @@
 package com.md.service.impl;
 
 import com.md.model.RequestModel;
-import com.md.service.ValidationCode;
+import com.md.setup.ValidationCode;
 import com.md.service.ValidationService;
 import org.springframework.stereotype.Component;
 

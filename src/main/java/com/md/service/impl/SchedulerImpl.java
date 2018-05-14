@@ -2,9 +2,8 @@ package com.md.service.impl;
 
 import com.md.model.CacheModel;
 import com.md.service.CacheService;
-import com.md.service.ValidationCode;
+import com.md.setup.ValidationCode;
 import com.md.service.ValidationService;
-import com.md.web.CustomController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

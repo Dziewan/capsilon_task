@@ -1,4 +1,4 @@
-package com.md.service;
+package com.md.setup;
 
 public class ValidationCode {
 

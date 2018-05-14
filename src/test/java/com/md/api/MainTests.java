@@ -2,20 +2,15 @@ package com.md.api;
 
 import com.md.model.RequestModel;
 import com.md.service.CustomService;
-import com.md.service.ValidationCode;
+import com.md.setup.ValidationCode;
 import com.md.service.ValidationService;
-import com.md.web.CustomController;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestComponent;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
